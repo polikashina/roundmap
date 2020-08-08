@@ -1,0 +1,6 @@
+
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+    <path d="M 32 0 A 32 32 0 0 1 59.71281292110204 48 L 32 32 Z" stroke-width="2" fill="#C70039"></path>
+    <path d="M 59.71281292110204 48 A 32 32 0 0 1 4.287187078897961 48 L 32 32 Z" stroke-width="2" fill="#FF5733"></path>
+    <path d="M 4.287187078897961 48 A 32 32 0 0 1 31.999999999999993 0 L 32 32 Z" stroke-width="2" fill="#FF8D1A"></path>
+</svg>

@@ -1,0 +1,29 @@
+import * as React from 'react'
+import {useState} from 'react'
+import {NavLink } from 'react-router-dom'
+
+const Signin:React.FC = () => {
+    const [loginValue, setLoginValue] = useState('')
+    const [passwordValue, setPasswordValue] = useState('')
+    console.log("render signin", loginValue, passwordValue)
+
+    const onLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setLoginValue(e.target.value)
+    }
+
+    const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPasswordValue(e.target.value)
+    }
+
+    return (
+        <form>
+            <h2>Sign In</h2>
+            <label>Email: <input type="text" onChange={onLoginChange}/></label>
+            <label>Password: <input type="password" onChange={onPasswordChange}/></label>
+            <button>Sign In</button>
+            <NavLink to="/signup">Sign up</NavLink>
+        </form>
+    )
+}
+
+export {Signin}

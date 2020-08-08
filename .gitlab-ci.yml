@@ -1,0 +1,37 @@
+image: docker
+
+services:
+    - docker:dind
+
+before_script:
+    # Авторизовываемся для доступа к Container Registry
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    # Настраиваем доступ по ssh для GitLab Runner
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    # Добавляем ssh ключ
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    # Записываем IP сервера в known_hosts
+    - ssh-keyscan -H "$SERVER_ADDRESS" >> ~/.ssh/known_hosts
+
+develop:
+    script:
+        # Создаем контейнер c тегами
+        # :latest - последний собранный контейнер, будет запускаться на сервере
+        # :$CI_COMMIT_SHA - контейнер для каждого коммита, чтобы ручками откатится до любой версии
+        - docker build --tag $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA .
+        # Пушим контейнры в Container Registry
+        - docker push $CI_REGISTRY_IMAGE:latest
+        - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+        # Подключаемся к серверу по ssh:
+        # Авторизовываемся для доступа к Container Registry теперь уже на удаленном сервере
+        # Скачиваем последний контейнер
+        # Остановливаем и удалеяем запущенный ранее контейнер по его имени
+        # Запускаем новый контейнер
+        # -v /etc/ssl/roundmap/:/etc/ssl/roundmap копирует сертификаты в контейнер
+        # -p 80:80 -p 443:443 указывает соответствие портов для EXPOSE портов из dockerfile
+        # -d - запускает в фоновом режиме
+        # name $APP_NAME $CI_REGISTRY_IMAGE:latest" задаем имя, чтобы ссылать на контейнер для его остановки и удаления
+        - ssh -A $SERVER_USER@$SERVER_ADDRESS "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY; docker pull $CI_REGISTRY_IMAGE:latest; docker stop $APP_NAME; docker rm $APP_NAME; docker run -v /etc/ssl/roundmap/:/etc/ssl/roundmap -p 80:80 -p 443:443 -d --name $APP_NAME $CI_REGISTRY_IMAGE:latest"
