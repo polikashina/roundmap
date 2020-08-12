@@ -1,8 +1,9 @@
 import React from "react";
 import { Dashboard } from "./components/Dashboard/Dashboard";
-import {BrowserRouter , Route} from 'react-router-dom';
-import {Signup} from './components/Sign/Signup'
-import {Signin} from './components/Sign/Signin'
+import { BrowserRouter, Route } from "react-router-dom";
+import { Signup } from "./components/Sign/Signup";
+import { Signin } from "./components/Sign/Signin";
+import { yandexMetrica } from "./yandexMetrica";
 import "./styles/main.scss";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Signup />
         </Route>
       </BrowserRouter>
+      {process.env.NODE_ENV === "production" && yandexMetrica()}
     </div>
   );
 }
