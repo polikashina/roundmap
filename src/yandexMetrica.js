@@ -1,4 +1,5 @@
 export const yandexMetrica = () => {
+  console.log("init metrica");
   (function(m, e, t, r, i, k, a) {
     m[i] =
       m[i] ||

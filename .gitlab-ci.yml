@@ -35,4 +35,4 @@ develop:
     # -d - запускает в фоновом режиме
     # name $APP_NAME $CI_REGISTRY_IMAGE:latest" задаем имя, чтобы ссылать на контейнер для его остановки и удаления
     # - ssh -A $SERVER_USER@$SERVER_ADDRESS "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY; docker pull $CI_REGISTRY_IMAGE:latest; docker stop $APP_NAME; docker rm $APP_NAME; docker run -v /etc/ssl/roundmap/:/etc/ssl/roundmap -p 80:80 -p 443:443 -d --name $APP_NAME $CI_REGISTRY_IMAGE:latest"
-    - ssh -A $SERVER_USER@$SERVER_ADDRESS "cd /home/app; docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY; docker-compose stop; docker-compose build; docker-compose up -d"
+    - ssh -A $SERVER_USER@$SERVER_ADDRESS "cd /home/app; docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY; docker-compose pull; docker-compose stop; docker-compose build; docker-compose up -d"
