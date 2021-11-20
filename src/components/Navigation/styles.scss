@@ -1,0 +1,31 @@
+.navigation {
+    padding: 10px 40px;
+}
+.navigation__menu {
+    display: flex;
+    align-items: center;
+}
+.navigation__item {
+    margin-right: 20px;
+    font-size: 20px;
+}
+.navigation__item a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+.navigation__item a:visited {
+    color: rgb(0, 0, 0);
+}
+.navigation__item a:hover {
+    text-decoration: underline;
+}
+.navigation__item_home {
+    display: flex;
+    align-items: center;
+}
+.navigation__home-link {
+    margin-left: 10px;
+}
+.dashboard__title {
+    margin: 0;
+}
