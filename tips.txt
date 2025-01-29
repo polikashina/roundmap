@@ -1,0 +1,2 @@
+tsc - default compiler for transpilation 
+tsc-alias - add .js extention to all imports
