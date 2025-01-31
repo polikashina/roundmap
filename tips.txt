@@ -1,2 +1,7 @@
 tsc - default compiler for transpilation 
 tsc-alias - add .js extention to all imports
+
+tsx - for dev server we no need step with compilitaion
+supports esm imports without extensions
+with watch mode
+but doesn`t typecheck
