@@ -1,2 +1,7 @@
 auth
 linter
+git 
+render layout to ts
+
+run site on cloud static site 
+   

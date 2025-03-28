@@ -7,22 +7,63 @@
   "scripts": {
     "build:compile": "tsc && tsc-alias",
     "build:run": "node dist/index.js",
-    "dev": "npx tsx watch src/index.ts",
-    "start": "npm-run-all --sequential build:* -- --watch"
+    "dev": "webpack-dev-server --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
+    "start": "npm-run-all --sequential build:* -- --watch",
+    "typecheck": "tsc --noEmit"
   },
-  "author": "",
+  "author": "o.polikashina",
   "license": "ISC",
   "dependencies": {
+    "@gravity-ui/uikit": "^7.8.0",
+    "classnames": "^2.5.1",
     "express": "^4.21.2",
+    "final-form": "^4.20.9",
     "npm-run-all": "^4.1.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-final-form": "^6.5.9",
+    "react-router-dom": "^6.27.0",
+    "svg-partial-circle": "^1.0.0",
     "uuid": "^11.0.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.9",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-react": "^7.26.3",
+    "@babel/preset-typescript": "^7.26.0",
+    "@gravity-ui/eslint-config": "^3.3.0",
+    "@gravity-ui/icons": "^2.13.0",
+    "@gravity-ui/stylelint-config": "^4.0.1",
+    "@svgr/webpack": "^8.1.0",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.7",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
     "@types/uuid": "^10.0.0",
+    "babel-loader": "^10.0.0",
+    "css-loader": "^7.1.2",
+    "css-minimizer-webpack-plugin": "^7.0.2",
+    "eslint": "^8.57.1",
+    "html-webpack-plugin": "^5.6.3",
+    "mini-css-extract-plugin": "^2.9.2",
+    "postcss-loader": "^8.1.1",
+    "postcss-preset-env": "^10.1.5",
+    "prettier": "^3.5.3",
+    "style-loader": "^4.0.0",
+    "stylelint": "^15.11.0",
     "tsc-alias": "^1.8.10",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.3"
-  }
+    "typescript": "^5.7.3",
+    "typescript-plugin-css-modules": "^5.1.0",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0",
+    "webpack-merge": "^6.0.1"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ]
 }

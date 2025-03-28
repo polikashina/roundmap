@@ -1,0 +1,35 @@
+@import url("../../styles/common.css");
+
+.layout {
+  width: 100%;
+  max-width: 1440px;
+}
+
+.layout__list {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  padding: 8px 24px;
+}
+
+.layout__item-home {
+  margin-right: auto;
+}
+
+.layout__link:hover,
+.layout__link:focus {
+  color: var(--g-color-text-link-hover);
+}
+
+.layout__link-home {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  margin-right: auto;
+}
+
+.layout__section {
+  padding: 20px;
+}

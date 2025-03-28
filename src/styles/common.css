@@ -1,0 +1,22 @@
+@import url("./reset.css");
+@import url("./variables.css");
+
+html {
+  min-width: 1280px;
+  height: 100%;
+
+  font-family: var(--basic-font);
+}
+
+body {
+  height: 100%;
+}
+
+#root,
+body,
+html {
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}

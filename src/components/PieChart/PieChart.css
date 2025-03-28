@@ -1,0 +1,15 @@
+.pie-chart__text {
+  cursor: pointer;
+
+  & tspan {
+    font-weight: bold;
+  }
+}
+
+.pie-chart__text:hover {
+  fill: rgba(0, 0, 0, 0.8);
+}
+
+.pie-chart__sector {
+  cursor: pointer;
+}
