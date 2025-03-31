@@ -1,4 +1,9 @@
-import React, { ReactNode } from "react";
+import React, {
+  ReactNode,
+  forwardRef,
+  RefObject,
+  ForwardRefRenderFunction,
+} from "react";
 import partialCircle from "svg-partial-circle";
 import type { AreaValue } from "../types/AreaValue";
 import { COLORS, DEGREE_START, TEXT_GAP, ChartTextAlign } from "./constants";
@@ -34,11 +39,10 @@ const getRadius = (value: number, size: number): number => {
   return ((size / 2) * value) / 10;
 };
 
-export const PieChart: React.FC<PieChartProps> = ({
-  items,
-  viewBoxSize,
-  onClick,
-}) => {
+const PieChartComponent: ForwardRefRenderFunction<
+  SVGSVGElement,
+  PieChartProps
+> = ({ items, viewBoxSize, onClick }, ref) => {
   const chartPath: Path[] = [];
   const canvasSize = viewBoxSize;
   const chartSize = viewBoxSize;
@@ -153,6 +157,7 @@ export const PieChart: React.FC<PieChartProps> = ({
 
   return (
     <svg
+      ref={ref}
       xmlns="http://www.w3.org/2000/svg"
       viewBox={`0 0 ${canvasSize} ${canvasSize}`}
       width="100%"
@@ -163,3 +168,5 @@ export const PieChart: React.FC<PieChartProps> = ({
     </svg>
   );
 };
+
+export const PieChart = forwardRef(PieChartComponent);

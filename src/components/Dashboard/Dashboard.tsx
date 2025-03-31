@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Flex, Text, Icon, Button } from "@gravity-ui/uikit";
 import { AreaForm } from "~src/components/AreaForm/AreaForm";
 import type { AreaValue } from "~src/components/types/AreaValue";
@@ -6,6 +6,7 @@ import { PieChart } from "~src/components/PieChart/PieChart";
 import styles from "./DashBoard.css";
 import PlusIcon from "@gravity-ui/icons/svgs/plus.svg";
 import ArrowDownToLineIcon from "@gravity-ui/icons/svgs/arrow-down-to-line.svg";
+import { downloadChart } from "~src/utils/downloadChart";
 
 const VIEWBOX_SIZE = 400;
 
@@ -14,11 +15,15 @@ export const Dashboard: React.FC = () => {
   const [currentAreaIndex, setCurrentAreaIndex] = useState<number>();
   const isEditMode = currentAreaIndex !== undefined;
 
+  const chartRef = useRef<SVGSVGElement>(null);
+
   const onAdd = () => {
     setCurrentAreaIndex(undefined);
   };
 
-  const onDownload = () => {};
+  const onDownload = () => {
+    downloadChart(chartRef.current);
+  };
 
   const onSubmit = (values: AreaValue) => {
     if (currentAreaIndex !== undefined) {
@@ -34,6 +39,7 @@ export const Dashboard: React.FC = () => {
     <Flex gap={10}>
       <div className={styles.dashboard__chart}>
         <PieChart
+          ref={chartRef}
           items={formValues}
           viewBoxSize={VIEWBOX_SIZE}
           onClick={setCurrentAreaIndex}
@@ -54,9 +60,11 @@ export const Dashboard: React.FC = () => {
                 <Icon data={PlusIcon} />
               </Button>
             )}
-            <Button onClick={onDownload}>
-              <Icon data={ArrowDownToLineIcon} />
-            </Button>
+            {formValues.length > 0 && (
+              <Button onClick={onDownload}>
+                <Icon data={ArrowDownToLineIcon} />
+              </Button>
+            )}
           </Flex>
         </Flex>
         <AreaForm
