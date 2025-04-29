@@ -17,6 +17,7 @@ export default merge(common, {
     rules: [
       {
         test: /\.css$/i,
+        exclude: /node_modules/,
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -38,6 +39,11 @@ export default merge(common, {
             },
           },
         ],
+      },
+      {
+        test: /\.css$/i,
+        exclude: /src/,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
     ],
   },

@@ -16,7 +16,6 @@ export default merge(common, {
       directory: path.join(__dirname, "dist"),
     },
     hot: true,
-    // liveReload: true,
     historyApiFallback: true,
   },
   module: {
