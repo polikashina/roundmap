@@ -3,7 +3,7 @@ import { Flex, Text, Icon, Button } from "@gravity-ui/uikit";
 import { AreaForm } from "~src/components/AreaForm/AreaForm";
 import type { AreaValue } from "~src/components/types/AreaValue";
 import { PieChart } from "~src/components/PieChart/PieChart";
-import styles from "./DashBoard.css";
+import styles from "./Dashboard.css";
 import PlusIcon from "@gravity-ui/icons/svgs/plus.svg";
 import ArrowDownToLineIcon from "@gravity-ui/icons/svgs/arrow-down-to-line.svg";
 import { downloadChart } from "~src/utils/downloadChart";

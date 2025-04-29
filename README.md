@@ -49,7 +49,7 @@ docker run -p 3000:3000 roundmap:latest
 
 ### CI/CD with GitHub Actions
 
-This project uses GitHub Actions for continuous integration and deployment. The workflow is defined in `.github/workflows/deploy.yml`.
+This project uses GitHub Actions for continuous integration and deployment. The workflow is defined in `.github/workflows/docker-deploy.yml`.
 
 #### How it works
 
@@ -62,15 +62,35 @@ This project uses GitHub Actions for continuous integration and deployment. The 
 
 To complete the deployment setup:
 
-1. Add the following secrets to your GitHub repository:
+1. The current workflow builds and pushes the Docker image to GitHub Container Registry (ghcr.io).
+
+2. To deploy to a server, you'll need to add the following secrets to your GitHub repository:
 
    - `SERVER_HOST`: The hostname or IP address of your server
    - `SERVER_USERNAME`: The SSH username for your server
    - `SERVER_SSH_KEY`: The private SSH key for authentication
 
-2. Ensure Docker is installed on your server and the user has permissions to run Docker commands
+3. Then, extend the workflow in `.github/workflows/docker-deploy.yml` by adding a deployment job:
 
-3. The GitHub Actions workflow will:
+   ```yaml
+   deploy:
+     needs: build-and-push
+     runs-on: ubuntu-latest
+     steps:
+       - name: Deploy to server
+         uses: appleboy/ssh-action@master
+         with:
+           host: ${{ secrets.SERVER_HOST }}
+           username: ${{ secrets.SERVER_USERNAME }}
+           key: ${{ secrets.SERVER_SSH_KEY }}
+           script: |
+             docker pull ghcr.io/${{ github.repository }}:latest
+             docker stop roundmap-app || true
+             docker rm roundmap-app || true
+             docker run -d --name roundmap-app -p 3000:3000 ghcr.io/${{ github.repository }}:latest
+   ```
+
+4. The complete GitHub Actions workflow will:
    - Build the Docker image
    - Push it to GitHub Container Registry (ghcr.io)
    - SSH into your server
