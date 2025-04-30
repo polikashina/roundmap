@@ -16,6 +16,7 @@ RUN npm run build
 # Production stage
 FROM node:20-alpine as production
 
+RUN mkdir /app
 WORKDIR /app
 
 # Copy package files and install only production dependencies

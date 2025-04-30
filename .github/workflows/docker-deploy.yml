@@ -9,6 +9,8 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  SERVER_HOST: 188.120.228.15
+  SERVER_USER: root
 
 jobs:
   build-and-push:
@@ -50,3 +52,48 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+
+      - name: Deploy to server
+        run: |
+          # Create deployment script
+          cat > deploy.sh << 'EOL'
+          #!/bin/bash
+          set -e
+
+          # Login to GitHub Container Registry
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+          # Pull the latest image
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+          # Stop and remove existing container if it exists
+          docker stop roundmap-app 2>/dev/null || true
+          docker rm roundmap-app 2>/dev/null || true
+
+          # Run the new container
+          docker run -d \
+            --name roundmap-app \
+            -p 3000:3000 \
+            -e NODE_ENV=production \
+            --restart unless-stopped \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+          # Clean up old images
+          docker image prune -af
+          EOL
+
+          # Copy and execute the deployment script on the server
+          chmod +x deploy.sh
+          scp deploy.sh ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }}:~/deploy.sh
+          ssh ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }} "bash ~/deploy.sh"

@@ -56,48 +56,24 @@ This project uses GitHub Actions for continuous integration and deployment. The 
 1. When you push to the `main` branch, GitHub Actions will:
    - Build the Docker image
    - Push it to GitHub Container Registry (ghcr.io)
-   - Deploy it to your production environment (if configured)
+   - Deploy it to your production server
 
 #### Setting up deployment to a self-hosted server
 
-To complete the deployment setup:
+The GitHub Actions workflow has been configured to deploy to a server. To make this work:
 
-1. The current workflow builds and pushes the Docker image to GitHub Container Registry (ghcr.io).
+1. Add the following secrets to your GitHub repository:
 
-2. To deploy to a server, you'll need to add the following secrets to your GitHub repository:
+   - `SSH_HOST`: IP address of the server
+   - `SSH_USER`: Username to access the server
+   - `SSH_PRIVATE_KEY`: Your private SSH key for accessing the server
+   - `SSH_KNOWN_HOSTS`: The SSH known hosts entry for your server (run `ssh-keyscan ${SSH_HOST}` to generate)
 
-   - `SERVER_HOST`: The hostname or IP address of your server
-   - `SERVER_USERNAME`: The SSH username for your server
-   - `SERVER_SSH_KEY`: The private SSH key for authentication
-
-3. Then, extend the workflow in `.github/workflows/docker-deploy.yml` by adding a deployment job:
-
-   ```yaml
-   deploy:
-     needs: build-and-push
-     runs-on: ubuntu-latest
-     steps:
-       - name: Deploy to server
-         uses: appleboy/ssh-action@master
-         with:
-           host: ${{ secrets.SERVER_HOST }}
-           username: ${{ secrets.SERVER_USERNAME }}
-           key: ${{ secrets.SERVER_SSH_KEY }}
-           script: |
-             docker pull ghcr.io/${{ github.repository }}:latest
-             docker stop roundmap-app || true
-             docker rm roundmap-app || true
-             docker run -d --name roundmap-app -p 3000:3000 ghcr.io/${{ github.repository }}:latest
-   ```
-
-4. The complete GitHub Actions workflow will:
+2. The workflow will:
    - Build the Docker image
    - Push it to GitHub Container Registry (ghcr.io)
    - SSH into your server
    - Pull the latest image
    - Stop and remove any existing container
    - Start a new container with the latest image
-
-#### Accessing the deployed application
-
-Once deployed, the application will be available at your configured domain or IP address.
+   - Clean up old images
