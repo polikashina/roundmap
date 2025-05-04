@@ -10,7 +10,7 @@ export function createRenderFunction() {
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png" /> 
   </head>
-<title>React App</title>
+<title>roundMap: Колесо баланса</title>
 <body>
     <div id="root"></div>
 </body>
