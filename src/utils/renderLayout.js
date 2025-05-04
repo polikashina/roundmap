@@ -9,7 +9,7 @@ export function createRenderFunction() {
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="yandex-verification" content="1e86330536c8dfb9" />
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png" /> 
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png" />
   </head>
 <title>roundMap: Колесо баланса</title>
 <body>

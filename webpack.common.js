@@ -2,6 +2,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import { fileURLToPath } from "url";
 import path from "path";
 import { createRenderFunction } from "./src/utils/renderLayout.js";
+import CopyPlugin from "copy-webpack-plugin";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -49,6 +50,9 @@ export default {
     ],
   },
   plugins: [
+    new CopyPlugin({
+      patterns: [{ from: "assets/favicon", to: "favicon" }],
+    }),
     new HtmlWebpackPlugin({
       templateContent: renderLayout(),
     }),
