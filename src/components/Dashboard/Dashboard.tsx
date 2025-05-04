@@ -7,7 +7,7 @@ import styles from "./Dashboard.css";
 import PlusIcon from "@gravity-ui/icons/svgs/plus.svg";
 import ArrowDownToLineIcon from "@gravity-ui/icons/svgs/arrow-down-to-line.svg";
 import { downloadChart } from "~src/utils/downloadChart";
-
+import { useTranslation } from "react-i18next";
 const VIEWBOX_SIZE = 400;
 
 export const Dashboard: React.FC = () => {
@@ -16,6 +16,8 @@ export const Dashboard: React.FC = () => {
   const isEditMode = currentAreaIndex !== undefined;
 
   const chartRef = useRef<SVGSVGElement>(null);
+
+  const { t } = useTranslation("area");
 
   const onAdd = () => {
     setCurrentAreaIndex(undefined);
@@ -51,9 +53,7 @@ export const Dashboard: React.FC = () => {
         className={styles["dashboard__form-column"]}
       >
         <Flex alignItems="center" justifyContent="space-between" gap={3}>
-          <Text variant="header-1">
-            {isEditMode ? "Edit area" : "Add area"}
-          </Text>
+          <Text variant="header-1">{isEditMode ? t("edit") : t("add")}</Text>
           <Flex gap={3}>
             {isEditMode && (
               <Button onClick={onAdd}>
@@ -70,6 +70,7 @@ export const Dashboard: React.FC = () => {
         <AreaForm
           initialValues={isEditMode ? formValues[currentAreaIndex] : undefined}
           className={styles.dashboard__form}
+          isEditMode={isEditMode}
           onSubmit={onSubmit}
         />
       </Flex>

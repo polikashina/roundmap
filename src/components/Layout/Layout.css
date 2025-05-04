@@ -33,3 +33,17 @@
 .layout__section {
   padding: 20px;
 }
+
+.layout__language {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.layout__language_label {
+  white-space: nowrap;
+}
+
+.layout__language_select {
+  min-width: 100px;
+}

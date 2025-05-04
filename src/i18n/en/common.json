@@ -1,0 +1,14 @@
+{
+  "add": "Add",
+  "save": "Save",
+  "about": "About us",
+  "language": "Language",
+  "form": {
+    "name": "Name:",
+    "value": "Value:"
+  },
+  "validation": {
+    "required": "Required field",
+    "invalidValue": "Invalid value. Should be > 0 and <= 10"
+  }
+}

@@ -1,13 +1,25 @@
 import React, { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Text, Loader } from "@gravity-ui/uikit";
+import { Text, Loader, Select } from "@gravity-ui/uikit";
 import { ErrorBoundary } from "~src/components/ErrorBoundary/ErrorBoundary";
+import { useTranslation } from "react-i18next";
 import cn from "classnames";
 import styles from "./Layout.css";
 import Logo from "~assets/logo.svg";
 
+const LANG_OPTIONS = [
+  { value: "ru", content: "Русский" },
+  { value: "en", content: "English" },
+];
+
 export const Layout = () => {
+  const { t, i18n } = useTranslation();
+
+  const handleLanguageChange = (value: string[]) => {
+    i18n.changeLanguage(value[0]);
+  };
+
   return (
     <ErrorBoundary>
       <main className={styles.layout}>
@@ -24,8 +36,20 @@ export const Layout = () => {
             </li>
             <li>
               <Link to="/about" className={styles.layout__link}>
-                About us
+                {t("about")}
               </Link>
+            </li>
+            <li className={styles.layout__language}>
+              <Text variant="body-1" className={styles.layout__language_label}>
+                {t("language")}:
+              </Text>
+              <Select
+                className={styles.layout__language_select}
+                value={[i18n.language]}
+                options={LANG_OPTIONS}
+                onUpdate={handleLanguageChange}
+                size="s"
+              />
             </li>
           </ul>
         </nav>

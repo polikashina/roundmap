@@ -10,14 +10,14 @@ export default merge(common, {
   mode: "development",
   devtool: "inline-source-map",
   watch: true,
-  devServer: {
-    port: "3000",
-    static: {
-      directory: path.join(__dirname, "dist"),
-    },
-    hot: true,
-    historyApiFallback: true,
-  },
+  // devServer: {
+  //   port: "3000",
+  //   static: {
+  //     directory: path.join(__dirname, "dist"),
+  //   },
+  //   hot: true,
+  //   historyApiFallback: true,
+  // },
   module: {
     rules: [
       {
