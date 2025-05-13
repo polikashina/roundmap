@@ -51,7 +51,11 @@ export default {
   },
   plugins: [
     new CopyPlugin({
-      patterns: [{ from: "assets/favicon", to: "favicon" }],
+      patterns: [
+        { from: "assets/favicon", to: "favicon" },
+        { from: "robots.txt" },
+        { from: "sitemap.xml" },
+      ],
     }),
     new HtmlWebpackPlugin({
       templateContent: renderLayout(),

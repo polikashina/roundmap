@@ -1,0 +1,10 @@
+# robots.txt for roundmap
+
+User-agent: *
+Allow: /
+Disallow: /server/
+Disallow: /frontendAuth/
+Disallow: /assets/favicon/
+
+# Sitemap
+Sitemap: https://roundmap.app/sitemap.xml
