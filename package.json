@@ -7,10 +7,10 @@
   "scripts": {
     "build:compile": "tsc && tsc-alias",
     "build:run": "node dist/index.js",
-    "dev": "webpack --config webpack.dev.js --watch & babel-node server/index.js",
+    "dev": "webpack --config webpack.dev.js --watch & tsx server/index.ts",
     "build": "webpack --config webpack.prod.js",
     "typecheck": "tsc --noEmit",
-    "start": "babel-node server/index.js"
+    "start": "tsx server/index.ts"
   },
   "author": "o.polikashina",
   "license": "ISC",
