@@ -5,3 +5,7 @@ tsx - for dev server we no need step with compilitaion
 supports esm imports without extensions
 with watch mode
 but doesn`t typecheck
+
+
+core or nodkit how detect lang
+how use renderlayput

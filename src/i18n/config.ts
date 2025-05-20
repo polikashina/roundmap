@@ -19,8 +19,20 @@ const resourcesEn: Resources = {
   area: areaEn,
 };
 
+// Get initial language from server if available
+const getInitialLanguage = (): string => {
+  if (typeof window !== "undefined" && window.__INITIAL_LANGUAGE__) {
+    return window.__INITIAL_LANGUAGE__;
+  }
+
+  // Fallback to browser language or default
+  return typeof navigator !== "undefined"
+    ? navigator.language?.split("-")[0] || "ru"
+    : "ru";
+};
+
 i18next.use(initReactI18next).init({
-  lng: "ru",
+  lng: getInitialLanguage(),
   debug: true,
   fallbackLng: "en",
   resources: {

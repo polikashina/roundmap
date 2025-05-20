@@ -1,12 +1,13 @@
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { fileURLToPath } from "url";
 import path from "path";
-import { createRenderFunction } from "./src/utils/renderLayout.js";
+import { renderLayout } from "./src/utils/renderLayout.js";
 import CopyPlugin from "copy-webpack-plugin";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const renderLayout = createRenderFunction();
+// Default language for webpack build
+const DEFAULT_LANG = "en";
 
 export default {
   entry: "./src/index.tsx",
@@ -56,9 +57,6 @@ export default {
         { from: "robots.txt" },
         { from: "sitemap.xml" },
       ],
-    }),
-    new HtmlWebpackPlugin({
-      templateContent: renderLayout(),
     }),
   ],
 };

@@ -1,6 +1,6 @@
 import express from "express";
 import { Express, Request, Response, NextFunction } from "express";
-import { setRequestId } from "./middlewares";
+import { setRequestId } from "../server/middlewares";
 
 const app: Express = express();
 const port = 3000;
