@@ -1,8 +1,11 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { router } from "./router";
 import { ThemeProvider } from "@gravity-ui/uikit";
+import queryClient from "./services/queryClient";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "./i18n/config";
 import "@gravity-ui/uikit/styles/fonts.css";
 import "@gravity-ui/uikit/styles/styles.css";
@@ -14,7 +17,10 @@ if (!container) {
 
 const root = createRoot(container);
 root.render(
-  <ThemeProvider theme="light">
-    <RouterProvider router={router} />
-  </ThemeProvider>
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider theme="light">
+      <RouterProvider router={router} />
+    </ThemeProvider>
+    <ReactQueryDevtools initialIsOpen={true} />
+  </QueryClientProvider>
 );
