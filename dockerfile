@@ -21,13 +21,12 @@ WORKDIR /app
 
 # Copy package files and install production dependencies plus tsx
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm ci
 RUN npm install tsx
 
 # Copy built files and necessary source files
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/server ./server
-COPY --from=build /app/src/utils ./src/utils
 COPY --from=build /app/tsconfig.json ./tsconfig.json
 
 # Expose the port the app runs on
