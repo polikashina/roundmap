@@ -7,6 +7,7 @@ import { renderToString } from "react-dom/server";
 import { jsx } from "react/jsx-runtime";
 import { detectLanguage } from "./middlewares";
 import { renderLayout } from "~src/utils/renderLayout";
+import { Lang } from "~src/types/lang";
 
 const __dirname: string = path.dirname(fileURLToPath(import.meta.url));
 
@@ -32,6 +33,19 @@ const content = {
   },
 };
 
+const LAYOUT_META: { [key in Lang]: { title: string; description: string } } = {
+  ru: {
+    title: "Колесо баланса - нарисовать онлайн бесплатно",
+    description:
+      "Оценить сферы своей жизни, расставить приоритеты, улучшить качество жизни",
+  },
+  en: {
+    title: "Balance wheel - create online for free",
+    description:
+      "Rate areas of your life, set priorities, improve quality of life",
+  },
+};
+
 const About: React.FC<{ language: string }> = ({
   language,
 }): React.ReactElement => {
@@ -48,7 +62,7 @@ const About: React.FC<{ language: string }> = ({
 
 app.get("/about", (req: Request, res: Response): void => {
   // Use the detected language from the middleware
-  const language = req.language || "ru";
+  const language = req.lang || "ru";
 
   const html: string = renderToString(jsx(About, { language }));
   const pageTitle =
@@ -60,7 +74,14 @@ app.get("/about", (req: Request, res: Response): void => {
 });
 
 app.get("*", function (req: Request, res: Response): void {
-  res.send(renderLayout(req.language));
+  const lang = req.lang;
+  res.send(
+    renderLayout({
+      lang,
+      title: LAYOUT_META[lang].title,
+      description: LAYOUT_META[lang].description,
+    })
+  );
 });
 
 app.listen(PORT, (): void => {

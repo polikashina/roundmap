@@ -8,9 +8,11 @@ const distPath = path.resolve(__dirname, "../../dist");
 
 type LayoutProps = {
   lang: Lang;
+  title: string;
+  description: string;
 };
 
-export function renderLayout({ lang }: LayoutProps) {
+export function renderLayout({ lang, title, description }: LayoutProps) {
   // Get all JavaScript and CSS files from the dist directory
   let jsFiles = "";
   let cssFiles = "";
@@ -44,8 +46,8 @@ export function renderLayout({ lang }: LayoutProps) {
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png" />
     ${cssFiles}
-    <title>roundMap: Колесо баланса</title>
-    <meta name="description" content="Краткое описание страницы">
+    <title>${title}</title>
+    <meta name="description" content="${description}">
   </head>
   <body>
     <div id="root"></div>

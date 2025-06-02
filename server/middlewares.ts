@@ -1,16 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
 import { Express, Request, Response, NextFunction } from "express";
+import { Lang } from "~src/types/lang";
 
-// Extend Express Request type to include language property
-declare global {
-  namespace Express {
-    interface Request {
-      language?: string;
-    }
-  }
-}
-
-const SUPPORTED_LANGUAGES = ["en", "ru"];
+const SUPPORTED_LANGUAGES: Lang[] = ["en", "ru"];
 
 export const setRequestId = (
   req: Request,
@@ -27,7 +19,7 @@ export const detectLanguage = (
   res: Response,
   next: NextFunction
 ) => {
-  let detectedLang = "en";
+  let detectedLang: Lang = "en";
 
   // Check Accept-Language header
   if (req.headers["accept-language"]) {
@@ -52,18 +44,18 @@ export const detectLanguage = (
 
     // Find the first supported language
     for (const lang of languages) {
-      if (SUPPORTED_LANGUAGES.includes(lang.code)) {
-        detectedLang = lang.code;
+      if (SUPPORTED_LANGUAGES.includes(lang.code as Lang)) {
+        detectedLang = lang.code as Lang;
         break;
       }
     }
   }
 
   // Store detected language in request object for use in routes
-  req.language = detectedLang;
+  req.lang = detectedLang;
 
   // Set language in response locals for use in templates
-  res.locals.language = detectedLang;
+  res.locals.lang = detectedLang;
 
   next();
 };
