@@ -1,11 +1,16 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import type { Lang } from "../types/lang";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distPath = path.resolve(__dirname, "../../dist");
 
-export function renderLayout(lang = "ru") {
+type LayoutProps = {
+  lang: Lang;
+};
+
+export function renderLayout({ lang }: LayoutProps) {
   // Get all JavaScript and CSS files from the dist directory
   let jsFiles = "";
   let cssFiles = "";
@@ -40,6 +45,7 @@ export function renderLayout(lang = "ru") {
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png" />
     ${cssFiles}
     <title>roundMap: Колесо баланса</title>
+    <meta name="description" content="Краткое описание страницы">
   </head>
   <body>
     <div id="root"></div>

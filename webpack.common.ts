@@ -1,15 +1,16 @@
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { fileURLToPath } from "url";
 import path from "path";
-import { renderLayout } from "./src/utils/renderLayout.js";
+import { renderLayout } from "./src/utils/renderLayout";
 import CopyPlugin from "copy-webpack-plugin";
+import { Configuration } from "webpack";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Default language for webpack build
 const DEFAULT_LANG = "en";
 
-export default {
+const config: Configuration = {
   entry: "./src/index.tsx",
   output: {
     filename: "[name].bundle.js",
@@ -60,3 +61,5 @@ export default {
     }),
   ],
 };
+
+export default config;

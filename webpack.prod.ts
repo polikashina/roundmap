@@ -1,10 +1,11 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import { merge } from "webpack-merge";
-import common from "./webpack.common.js";
-import { getLocalIdent } from "./src/utils/getLocalIdent.js";
+import common from "./webpack.common";
+import { getLocalIdent } from "./src/utils/getLocalIdent";
+import { Configuration } from "webpack";
 
-export default merge(common, {
+const prodConfig: Configuration = {
   mode: "production",
   devtool: "source-map",
   plugins: [
@@ -50,4 +51,6 @@ export default merge(common, {
   optimization: {
     minimizer: ["...", new CssMinimizerPlugin()],
   },
-});
+};
+
+export default merge(common, prodConfig);

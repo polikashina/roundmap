@@ -1,6 +1,15 @@
 import path from "path";
 
-export const getLocalIdent = (context, _, localName) => {
+interface LocalIdentContext {
+  resourcePath: string;
+  rootContext: string;
+}
+
+export const getLocalIdent = (
+  context: LocalIdentContext,
+  _: unknown,
+  localName: string
+): string => {
   const relativePath = context.resourcePath.replace(context.rootContext, "");
   const fullPath = context.resourcePath;
   const fileName = path.basename(fullPath).replace(/\.[^.]+$/, "");
