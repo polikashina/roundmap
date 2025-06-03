@@ -1,12 +1,10 @@
-import HtmlWebpackPlugin from "html-webpack-plugin";
 import { fileURLToPath } from "url";
 import path from "path";
 import CopyPlugin from "copy-webpack-plugin";
-import { Configuration } from "webpack";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const config: Configuration = {
+const config = {
   entry: "./src/index.tsx",
   output: {
     filename: "[name].bundle.js",

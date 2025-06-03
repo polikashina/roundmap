@@ -1,31 +1,25 @@
-import { fileURLToPath } from "url";
-import path from "path";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import { merge } from "webpack-merge";
-import common from "./webpack.common";
-import { getLocalIdent } from "./src/utils/getLocalIdent";
-import { Configuration } from "webpack";
+import common from "./webpack.common.js";
+import { getLocalIdent } from "./src/utils/getLocalIdent.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-const devConfig: Configuration = {
-  mode: "development",
-  devtool: "inline-source-map",
-  watch: true,
-  // devServer: {
-  //   port: "3000",
-  //   static: {
-  //     directory: path.join(__dirname, "dist"),
-  //   },
-  //   hot: true,
-  //   historyApiFallback: true,
-  // },
+const prodConfig = {
+  mode: "production",
+  devtool: "source-map",
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css",
+    }),
+  ],
   module: {
     rules: [
       {
         test: /\.css$/i,
         exclude: /node_modules/,
         use: [
-          "style-loader",
+          MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
             options: {
@@ -49,10 +43,13 @@ const devConfig: Configuration = {
       {
         test: /\.css$/i,
         exclude: /src/,
-        use: ["style-loader", "css-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
     ],
   },
+  optimization: {
+    minimizer: ["...", new CssMinimizerPlugin()],
+  },
 };
 
-export default merge(common, devConfig);
+export default merge(common, prodConfig);
