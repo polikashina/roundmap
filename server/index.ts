@@ -6,8 +6,8 @@ import React from "react";
 import { renderToString } from "react-dom/server";
 import { jsx } from "react/jsx-runtime";
 import { detectLanguage } from "./middlewares";
-import { renderLayout } from "~src/utils/renderLayout";
-import { Lang } from "~src/types/lang";
+import { renderLayout } from "../src/utils/renderLayout";
+import { Lang } from "../src/types/lang";
 
 const __dirname: string = path.dirname(fileURLToPath(import.meta.url));
 
