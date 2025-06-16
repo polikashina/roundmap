@@ -62,7 +62,6 @@
     "style-loader": "^4.0.0",
     "stylelint": "^15.11.0",
     "tsc-alias": "^1.8.10",
-    "tsx": "^4.19.2",
     "typescript": "^5.7.3",
     "typescript-plugin-css-modules": "^5.1.0",
     "webpack": "^5.98.0",

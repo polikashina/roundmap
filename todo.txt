@@ -1,3 +1,5 @@
+split server and client - sharing base?
+
 variable in docker-deploy
 
 
