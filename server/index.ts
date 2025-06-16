@@ -62,14 +62,19 @@ const About: React.FC<{ language: string }> = ({
 
 app.get("/about", (req: Request, res: Response): void => {
   // Use the detected language from the middleware
-  const language = req.lang || "ru";
+  const lang = req.lang || "ru";
 
-  const html: string = renderToString(jsx(About, { language }));
-  const pageTitle =
-    content[language as keyof typeof content]?.title || content.ru.title;
+  const html: string = renderToString(jsx(About, { lang }));
+  const title =
+    content[lang as keyof typeof content]?.title || content.ru.title;
 
   res.send(
-    `<!DOCTYPE html><html lang="${language}"><head><title>${pageTitle}</title></head><body>${html}</body></html>`
+    renderLayout({
+      lang,
+      title,
+      description: "Колесо баланса",
+      body: html,
+    })
   );
 });
 
