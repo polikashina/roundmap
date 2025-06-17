@@ -7,7 +7,7 @@
   "scripts": {
     "build:compile": "tsc && tsc-alias",
     "build:run": "node dist/index.js",
-    "dev": "webpack --config webpack.dev.js --watch & tsx server/index.ts",
+    "dev": "webpack --config webpack.dev.js --watch & node server/index.js",
     "build": "webpack --config webpack.prod.js",
     "typecheck": "tsc --noEmit",
     "start": "tsx server/index.ts"

@@ -24,6 +24,19 @@ const YM = `<!-- Yandex.Metrika counter -->
 <noscript><div><img src="https://mc.yandex.ru/watch/101053224" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->`;
 
+const YA_AUTH_SUGGEST = `window.YaAuthSuggest.init(
+    {
+      client_id: "51eeb6ee57cd4b52b35718a55e7e247f",
+      response_type: "token",
+      redirect_uri: "https://roundmap.app/login"
+    },
+    "https://roundmap.app",
+    { view: "default" }
+  )
+  .then(({handler}) => handler())
+  .then(data => console.log('Сообщение с токеном', data))
+  .catch(error => console.log('Обработка ошибки', error))`;
+
 type LayoutProps = {
   lang: Lang;
   title: string;
@@ -67,6 +80,7 @@ export function renderLayout({ lang, title, description, body }: LayoutProps) {
     ${cssFiles}
     <title>${title}</title>
     <meta name="description" content="${description}">
+    <script src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js"></script>
   </head>
   <body>
     <div id="root">${body}</div>
@@ -75,7 +89,9 @@ export function renderLayout({ lang, title, description, body }: LayoutProps) {
       window.__INITIAL_LANGUAGE__ = "${lang}";
     </script>
     <script src="./main.bundle.js"></script>
+${jsFiles}
 ${YM}
+${YA_AUTH_SUGGEST}
   </body>
 </html>
     `.trim();

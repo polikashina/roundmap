@@ -74,6 +74,28 @@ app.get("/about", (req, res) => {
   );
 });
 
+app.get("/login", (req, res) => {
+  res.send(`
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect</title>
+    <script src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-token-with-polyfills-latest.js"></script>
+</head>
+<body>
+    Login
+    <script>
+        window.onload = function() {
+            window.YaSendSuggestToken('https://roundmap.app')
+        }
+    </script>
+</body>
+</html>
+`);
+});
+
 app.get("*", function (req, res) {
   const lang = req.lang;
   res.send(

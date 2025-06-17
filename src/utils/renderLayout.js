@@ -5,6 +5,19 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distPath = path.resolve(__dirname, "../../dist");
 
+const YA_AUTH_SUGGEST = `<script>window.YaAuthSuggest.init(
+    {
+      client_id: "51eeb6ee57cd4b52b35718a55e7e247f",
+      response_type: "token",
+      redirect_uri: "https://roundmap.app/login"
+    },
+    "https://roundmap.app",
+    { view: "default" }
+  )
+  .then(({handler}) => handler())
+  .then(data => console.log('Сообщение с токеном', data))
+  .catch(error => console.log('Обработка ошибки', error))</script>`;
+
 const YM = `<!-- Yandex.Metrika counter -->
 <script type="text/javascript" >
    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -59,6 +72,7 @@ export function renderLayout({ lang, title, description, body }) {
     ${cssFiles}
     <title>${title}</title>
     <meta name="description" content="${description}">
+    <script src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js"></script>
   </head>
   <body>
     <div id="root">${body || ""}</div>
@@ -68,6 +82,7 @@ export function renderLayout({ lang, title, description, body }) {
     </script>
     <script src="./main.bundle.js"></script>
 ${YM}
+${YA_AUTH_SUGGEST}
   </body>
 </html>
     `.trim();
