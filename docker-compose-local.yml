@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx
+    container_name: roundmap-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/local-roundmap.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/ssl/roundmap.key:/etc/ssl/roundmap/roundmap.key
+      - ./nginx/ssl/roundmap.crt:/etc/ssl/roundmap/roundmap.crt
+      - ./dist:/app/dist
+    restart: unless-stopped
