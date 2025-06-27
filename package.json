@@ -7,11 +7,15 @@
   "scripts": {
     "build:compile": "tsc && tsc-alias",
     "build:run": "node dist/index.js",
-    "dev": "webpack --config webpack.dev.js --watch & node server/index.js",
+    "dev": "webpack --config webpack.dev.js --watch & npm run dev:server ",
     "build": "webpack --config webpack.prod.js",
     "typecheck": "tsc --noEmit",
     "start": "tsx server/index.ts",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "dev:server:build": "webpack --config webpack.server.dev.js --watch",
+    "dev:server:start": "wait-on dist-server/index.cjs && node dist-server/index.cjs",
+    "dev:server": "npm run dev:server:build & npm run dev:server:start",
+    "build:server:prod": "webpack --config webpack.server.prod.js"
   },
   "author": "o.polikashina",
   "license": "ISC",
@@ -66,10 +70,12 @@
     "tsc-alias": "^1.8.10",
     "typescript": "^5.7.3",
     "typescript-plugin-css-modules": "^5.1.0",
+    "wait-on": "^8.0.3",
     "webpack": "^5.98.0",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.0",
-    "webpack-merge": "^6.0.1"
+    "webpack-merge": "^6.0.1",
+    "webpack-node-externals": "^3.0.0"
   },
   "browserslist": [
     ">0.2%",
