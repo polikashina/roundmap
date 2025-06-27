@@ -1,3 +1,6 @@
+docker for nginx setup
+
+
 split server and client - sharing base?
 
 variable in docker-deploy
@@ -9,4 +12,5 @@ git
 render layout to ts
 
 run site on cloud static site 
+ssl nginx config 
    
