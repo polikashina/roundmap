@@ -51,7 +51,7 @@ export const Layout = () => {
                 size="s"
               />
             </li>
-            <li>
+            {/* <li>
               <Flex gap={2} alignItems="center">
                 Login
                 <div
@@ -59,7 +59,7 @@ export const Layout = () => {
                   className={cn(styles.layout__auth_widget)}
                 ></div>
               </Flex>
-            </li>
+            </li> */}
           </ul>
         </nav>
         <section className={styles.layout__section}>

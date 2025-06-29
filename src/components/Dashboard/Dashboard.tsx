@@ -39,7 +39,6 @@ export const Dashboard: React.FC = () => {
 
   return (
     <Flex gap={10}>
-      LOCAL
       <div className={styles.dashboard__chart}>
         <PieChart
           ref={chartRef}

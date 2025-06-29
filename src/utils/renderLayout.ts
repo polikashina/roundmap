@@ -117,7 +117,6 @@ export function renderLayout({ lang, title, description, body }: LayoutProps) {
     <script src="./main.bundle.js"></script>
 ${jsFiles}
 ${YM}
-${YA_AUTH_SUGGEST}
   </body>
 </html>
     `.trim();
