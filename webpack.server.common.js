@@ -20,10 +20,6 @@ const config = {
   },
   resolve: {
     extensions: [".js", ".ts"],
-    alias: {
-      "~assets": path.resolve(__dirname, "assets"),
-      "~src": path.resolve(__dirname, "src"),
-    },
   },
   externals: [nodeExternals()], // Exclude node_modules from bundling
   module: {

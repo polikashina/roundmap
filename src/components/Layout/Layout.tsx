@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Text, Loader, Select } from "@gravity-ui/uikit";
+import { Text, Loader, Select, Flex } from "@gravity-ui/uikit";
 import { ErrorBoundary } from "~src/components/ErrorBoundary/ErrorBoundary";
 import { useTranslation } from "react-i18next";
 import cn from "classnames";
@@ -50,6 +50,15 @@ export const Layout = () => {
                 onUpdate={handleLanguageChange}
                 size="s"
               />
+            </li>
+            <li>
+              <Flex gap={2} alignItems="center">
+                Login
+                <div
+                  id="buttonContainerId"
+                  className={cn(styles.layout__auth_widget)}
+                ></div>
+              </Flex>
             </li>
           </ul>
         </nav>

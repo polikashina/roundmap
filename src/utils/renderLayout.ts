@@ -6,6 +6,32 @@ import type { Lang } from "../types/lang";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distPath = path.resolve(__dirname, "../../dist");
 
+const YA_AUTH_SUGGEST = `<script>window.YaAuthSuggest.init(
+    {
+      client_id: "51eeb6ee57cd4b52b35718a55e7e247f",
+      response_type: "token",
+      redirect_uri: "https://roundmap.app/login"
+    },
+    "https://roundmap.app",
+   {
+      view: "button",
+      parentId: "buttonContainerId",
+      buttonSize: 'xs',
+      buttonView: 'iconBg',
+      buttonTheme: 'light',
+      buttonBorderRadius: "8",
+      buttonIcon: 'ya',
+      customBgColor: 'rgba(0, 0, 0, 0)',
+      customBgHoveredColor: 'rgba(180, 184, 204, 0.2)',
+      customBorderColor: 'rgba(180, 184, 204, 0.28)',
+      customBorderHoveredColor: 'rgba(180, 184, 204, 0.28)',
+      customBorderWidth: '0',
+    }
+  )
+  .then(({handler}) => handler())
+  .then(data => console.log('Сообщение с токеном', data))
+  .catch(error => console.log('Обработка ошибки', error))</script>`;
+
 const YM = `<!-- Yandex.Metrika counter -->
 <script type="text/javascript" >
    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -24,18 +50,18 @@ const YM = `<!-- Yandex.Metrika counter -->
 <noscript><div><img src="https://mc.yandex.ru/watch/101053224" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->`;
 
-const YA_AUTH_SUGGEST = `window.YaAuthSuggest.init(
-    {
-      client_id: "51eeb6ee57cd4b52b35718a55e7e247f",
-      response_type: "token",
-      redirect_uri: "https://roundmap.app/login"
-    },
-    "https://roundmap.app",
-    { view: "default" }
-  )
-  .then(({handler}) => handler())
-  .then(data => console.log('Сообщение с токеном', data))
-  .catch(error => console.log('Обработка ошибки', error))`;
+// const YA_AUTH_SUGGEST = `window.YaAuthSuggest.init(
+//     {
+//       client_id: "51eeb6ee57cd4b52b35718a55e7e247f",
+//       response_type: "token",
+//       redirect_uri: "https://roundmap.app/login"
+//     },
+//     "https://roundmap.app",
+//     { view: "default" }
+//   )
+//   .then(({handler}) => handler())
+//   .then(data => console.log('Сообщение с токеном', data))
+//   .catch(error => console.log('Обработка ошибки', error))`;
 
 type LayoutProps = {
   lang: Lang;

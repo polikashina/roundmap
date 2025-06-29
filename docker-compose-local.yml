@@ -12,3 +12,5 @@ services:
       - ./nginx/ssl/roundmap.key:/etc/ssl/roundmap/roundmap.key
       - ./nginx/ssl/roundmap.crt:/etc/ssl/roundmap/roundmap.crt
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:192.168.1.110"

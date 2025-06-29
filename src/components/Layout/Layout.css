@@ -47,3 +47,7 @@
 .layout__language_select {
   min-width: 100px;
 }
+
+.layout__auth_widget {
+  width: 100px;
+}

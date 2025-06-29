@@ -1,5 +1,7 @@
-docker for nginx setup
+ts all server
 
+
+ya eng icon
 
 split server and client - sharing base?
 
