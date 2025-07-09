@@ -1,5 +1,6 @@
 ts all server
-
+remove counter from dev
+split dev and prod auth
 
 ya eng icon
 
@@ -16,3 +17,6 @@ render layout to ts
 run site on cloud static site 
 ssl nginx config 
    
+
+   purgecss --css ./src/**/*.css --content ./src/**/*.tsx --output ./purged-css
+flag arg for diff
