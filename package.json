@@ -47,6 +47,7 @@
     "@gravity-ui/eslint-config": "^3.3.0",
     "@gravity-ui/icons": "^2.13.0",
     "@gravity-ui/stylelint-config": "^4.0.1",
+    "@playwright/test": "^1.54.1",
     "@svgr/webpack": "^8.1.0",
     "@types/express": "^5.0.0",
     "@types/jspdf": "^2.0.0",
