@@ -108,7 +108,6 @@ app.get("/login", (_req: Request, res: Response) => {
     <script src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-token-with-polyfills-latest.js"></script>
 </head>
 <body>
-    Login
     <script>
         window.onload = function() {
             window.YaSendSuggestToken('https://roundmap.app')

@@ -1,21 +1,19 @@
 .dashboard__chart {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
 
-  width: 60%;
-
-  border-right: 2px solid var(--g-color-line-generic-solid);
+  width: 50%;
 }
 
 .dashboard__form-column {
-  width: 40%;
+  display: flex;
+  justify-content: flex-end;
+
+  width: 50%;
 }
 
-.dashboard__form {
-  width: 300px;
-}
-
-#dashboad {
-  margin: 10px;
+.dashboard__download {
+  align-self: flex-end;
 }

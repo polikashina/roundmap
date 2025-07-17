@@ -1,19 +1,34 @@
 import React, { useState, useRef } from "react";
 import { Flex, Text, Icon, Button } from "@gravity-ui/uikit";
-import { AreaForm } from "~src/components/AreaForm/AreaForm";
-import type { AreaValue } from "~src/components/types/AreaValue";
+
 import { PieChart } from "~src/components/PieChart/PieChart";
 import styles from "./Dashboard.css";
 import PlusIcon from "@gravity-ui/icons/svgs/plus.svg";
 import ArrowDownToLineIcon from "@gravity-ui/icons/svgs/arrow-down-to-line.svg";
 import { downloadChart } from "~src/utils/downloadChart";
 import { useTranslation } from "react-i18next";
-const VIEWBOX_SIZE = 400;
+import { AreaSettings, AreaSettingsForm } from "../AreaSettings/AreaSettings";
+import { COLORS } from "~src/constants/colors";
+import i18next from "i18next";
+const VIEWBOX_SIZE = 600;
+
+const INIT: AreaSettingsForm = {
+  areas: [
+    { id: 1, name: "Здоровье", value: 8, color: COLORS[0] },
+    { id: 2, name: "Карьера", value: 6, color: COLORS[1] },
+    { id: 3, name: "Финансы", value: 7, color: COLORS[2] },
+    { id: 4, name: "Отношения", value: 5, color: COLORS[3] },
+    { id: 5, name: "Личностный рост", value: 9, color: COLORS[4] },
+    { id: 6, name: "Отдых", value: 7, color: COLORS[5] },
+    { id: 7, name: "Окружение", value: 6, color: COLORS[6] },
+    { id: 8, name: "Духовность", value: 7, color: COLORS[7] },
+  ],
+};
 
 export const Dashboard: React.FC = () => {
-  const [formValues, setFormValues] = useState<AreaValue[]>([]);
+  const [formValues, setFormValues] = useState<AreaSettingsForm>(INIT);
   const [currentAreaIndex, setCurrentAreaIndex] = useState<number>();
-  const isEditMode = currentAreaIndex !== undefined;
+  const [isEditMode, setEditMode] = useState(false);
 
   const chartRef = useRef<SVGSVGElement>(null);
 
@@ -27,53 +42,29 @@ export const Dashboard: React.FC = () => {
     downloadChart(chartRef.current);
   };
 
-  const onSubmit = (values: AreaValue) => {
-    if (currentAreaIndex !== undefined) {
-      const newFormValues = [...formValues];
-      newFormValues[currentAreaIndex] = values;
-      setFormValues(newFormValues);
-    } else {
-      setFormValues([...formValues, values]);
-    }
+  const onChange = (values: AreaSettingsForm) => {
+    setFormValues(values);
   };
 
   return (
     <Flex gap={10}>
-      <div className={styles.dashboard__chart}>
-        <PieChart
-          ref={chartRef}
-          items={formValues}
-          viewBoxSize={VIEWBOX_SIZE}
-          onClick={setCurrentAreaIndex}
+      <div className={styles["dashboard__form-column"]}>
+        <AreaSettings
+          initialValues={INIT}
+          isEditMode={isEditMode}
+          onChange={onChange}
         />
       </div>
-      <Flex
-        direction="column"
-        gap={4}
-        className={styles["dashboard__form-column"]}
-      >
-        <Flex alignItems="center" justifyContent="space-between" gap={3}>
-          <Text variant="header-1">{isEditMode ? t("edit") : t("add")}</Text>
-          <Flex gap={3}>
-            {isEditMode && (
-              <Button onClick={onAdd}>
-                <Icon data={PlusIcon} />
-              </Button>
-            )}
-            {formValues.length > 0 && (
-              <Button onClick={onDownload}>
-                <Icon data={ArrowDownToLineIcon} />
-              </Button>
-            )}
-          </Flex>
-        </Flex>
-        <AreaForm
-          initialValues={isEditMode ? formValues[currentAreaIndex] : undefined}
-          className={styles.dashboard__form}
-          isEditMode={isEditMode}
-          onSubmit={onSubmit}
+      <div className={styles.dashboard__chart}>
+        <Button className={styles.dashboard__download} onClick={onDownload}>
+          {t("download")} <Icon data={ArrowDownToLineIcon} />
+        </Button>
+        <PieChart
+          ref={chartRef}
+          items={formValues.areas}
+          viewBoxSize={VIEWBOX_SIZE}
         />
-      </Flex>
+      </div>
     </Flex>
   );
 };

@@ -5,14 +5,14 @@ import React, {
   ForwardRefRenderFunction,
 } from "react";
 import partialCircle from "svg-partial-circle";
-import type { AreaValue } from "../types/AreaValue";
-import { COLORS, DEGREE_START, TEXT_GAP, ChartTextAlign } from "./constants";
+import type { AreaSettings } from "../types/AreaSettings";
+import { DEGREE_START, TEXT_GAP, ChartTextAlign } from "./constants";
+
 import styles from "./PieChart.css";
 
 type PieChartProps = {
-  items: AreaValue[];
+  items: AreaSettings[];
   viewBoxSize: number;
-  onClick: (index: number) => void;
 };
 
 type Coordinate = {
@@ -42,7 +42,7 @@ const getRadius = (value: number, size: number): number => {
 const PieChartComponent: ForwardRefRenderFunction<
   SVGSVGElement,
   PieChartProps
-> = ({ items, viewBoxSize, onClick }, ref) => {
+> = ({ items, viewBoxSize }, ref) => {
   const chartPath: Path[] = [];
   const canvasSize = viewBoxSize;
   const chartSize = viewBoxSize;
@@ -51,7 +51,7 @@ const PieChartComponent: ForwardRefRenderFunction<
     const center: Coordinate = { x: canvasSize / 2, y: canvasSize / 2 };
 
     if (items.length === 1) {
-      const { value, name } = items[0];
+      const { value, name, color } = items[0];
       const radius = getRadius(value, chartSize);
 
       return (
@@ -61,9 +61,8 @@ const PieChartComponent: ForwardRefRenderFunction<
             cx={center.x}
             cy={center.y}
             r={radius}
-            fill={COLORS[0]}
+            fill={color}
             className={styles["pie-chart__sector"]}
-            onClick={() => onClick(0)}
           />
           <text
             key="text"
@@ -71,7 +70,6 @@ const PieChartComponent: ForwardRefRenderFunction<
             y={center.y - radius - TEXT_GAP}
             textAnchor={ChartTextAlign.Middle}
             className={styles["pie-chart__text"]}
-            onClick={() => onClick(0)}
           >
             {name} <tspan>{value}</tspan>
           </text>
@@ -82,7 +80,7 @@ const PieChartComponent: ForwardRefRenderFunction<
     const itemSize = 360 / items.length;
     let angleStart = getDegrees(DEGREE_START);
 
-    items.forEach(({ name, value }, index) => {
+    items.forEach(({ name, value, color }, index) => {
       const radius = getRadius(value, canvasSize);
 
       const angleEnd = getDegrees(DEGREE_START + itemSize * (index + 1));
@@ -119,7 +117,7 @@ const PieChartComponent: ForwardRefRenderFunction<
       }
 
       chartPath.push({
-        color: COLORS[index],
+        color,
         name,
         path:
           path.map((p) => p.join(" ")).join(" ") +
@@ -138,7 +136,6 @@ const PieChartComponent: ForwardRefRenderFunction<
           strokeWidth={2}
           fill={color}
           className={styles["pie-chart__sector"]}
-          onClick={() => onClick(index)}
         />,
         <text
           key={`text-${index}`}
@@ -146,9 +143,8 @@ const PieChartComponent: ForwardRefRenderFunction<
           y={text.y}
           textAnchor={text.align}
           className={styles["pie-chart__text"]}
-          onClick={() => onClick(index)}
         >
-          {name} <tspan>{items[index].value}</tspan>
+          <tspan>{items[index].value}</tspan>
         </text>,
       ],
       [] as ReactNode[]

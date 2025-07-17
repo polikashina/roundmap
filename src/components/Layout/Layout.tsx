@@ -53,7 +53,6 @@ export const Layout = () => {
             </li>
             <li>
               <Flex gap={2} alignItems="center">
-                Login
                 <div
                   id="buttonContainerId"
                   className={cn(styles.layout__auth_widget)}
