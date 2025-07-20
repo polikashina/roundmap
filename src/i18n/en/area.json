@@ -1,4 +1,6 @@
 {
-  "add": "Add area",
-  "edit": "Edit area"
+  "add": "Add new area",
+  "settings": "Settings",
+  "settings.description": "Click «Edit» for updating or deleting",
+  "download": "Download"
 }

@@ -1,14 +1,10 @@
 {
   "add": "Add",
   "save": "Save",
+  "edit": "Edit",
   "about": "About us",
   "language": "Language",
-  "form": {
-    "name": "Name:",
-    "value": "Value:"
-  },
   "validation": {
-    "required": "Required field",
-    "invalidValue": "Invalid value. Should be > 0 and <= 10"
+    "required": "Required field"
   }
 }
