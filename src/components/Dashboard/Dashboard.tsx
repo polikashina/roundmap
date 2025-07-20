@@ -15,13 +15,13 @@ const VIEWBOX_SIZE = 600;
 const INIT: AreaSettingsForm = {
   areas: [
     { id: 1, name: "Здоровье", value: 8, color: COLORS[0] },
-    { id: 2, name: "Карьера", value: 6, color: COLORS[1] },
-    { id: 3, name: "Финансы", value: 7, color: COLORS[2] },
-    { id: 4, name: "Отношения", value: 5, color: COLORS[3] },
-    { id: 5, name: "Личностный рост", value: 9, color: COLORS[4] },
-    { id: 6, name: "Отдых", value: 7, color: COLORS[5] },
-    { id: 7, name: "Окружение", value: 6, color: COLORS[6] },
-    { id: 8, name: "Духовность", value: 7, color: COLORS[7] },
+    { id: 2, name: "Карьера", value: 8, color: COLORS[1] },
+    { id: 3, name: "Финансы", value: 8, color: COLORS[2] },
+    { id: 4, name: "Отношения", value: 8, color: COLORS[3] },
+    { id: 5, name: "Личностный рост", value: 8, color: COLORS[4] },
+    { id: 6, name: "Отдых", value: 8, color: COLORS[5] },
+    { id: 7, name: "Окружение", value: 8, color: COLORS[6] },
+    { id: 8, name: "Духовность", value: 8, color: COLORS[7] },
   ],
 };
 
