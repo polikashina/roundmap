@@ -1,0 +1,97 @@
+name: Test Pull Request
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Cache the node_modules directory for other jobs
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+  test:
+    name: Run Tests
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      # Reuse the cached node_modules
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Restore cached node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Run Jest tests
+        run: npm test
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+  ts:
+    name: TypeScript Check
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      # Reuse the cached node_modules
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Restore cached node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Check typings
+        run: npm run typecheck
+
+  # This job will be used as a required check for merging
+  # It will only succeed if the test job succeeds
+  status-check:
+    name: Status Check
+    needs: [test, ts]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check test job status
+        if: needs.test.result != 'success' || needs.ts.result != 'success'
+        run: |
+          echo "Checks failed. PR cannot be merged."
+          exit 1
+      - name: Tests passed
+        run: echo "All checks passed. PR can be merged."
