@@ -10,9 +10,9 @@ const YA_AUTH_SUGGEST = `<script>window.YaAuthSuggest.init(
     {
       client_id: "51eeb6ee57cd4b52b35718a55e7e247f",
       response_type: "token",
-      redirect_uri: "https://roundmap.app/login"
+      redirect_uri: "https://roundmap.ru/login"
     },
-    "https://roundmap.app",
+    "https://roundmap.ru",
    {
       view: "button",
       parentId: "buttonContainerId",

@@ -93,7 +93,7 @@ app.get("/about", (req: Request, res: Response) => {
       title,
       description: "Колесо баланса",
       body: html,
-    })
+    }),
   );
 });
 
@@ -110,7 +110,7 @@ app.get("/login", (_req: Request, res: Response) => {
 <body>
     <script>
         window.onload = function() {
-            window.YaSendSuggestToken('https://roundmap.app')
+            window.YaSendSuggestToken('https://roundmap.ru')
         }
     </script>
 </body>
@@ -125,7 +125,7 @@ app.get("*", (req: Request, res: Response) => {
       lang,
       title: LAYOUT_META[lang].title,
       description: LAYOUT_META[lang].description,
-    })
+    }),
   );
 });
 
