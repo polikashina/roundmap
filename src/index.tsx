@@ -15,51 +15,12 @@ if (!container) {
   throw new Error('There is no element with id "root"');
 }
 
-const OtherFc = () => {
-  console.log("children");
-
-  return <div>children</div>;
-};
-
-const MainFc: FC<PropsWithChildren> = ({ children }) => {
-  const [state, setState] = useState(0);
-  // console.log('state', state);
-  // console.log('rer');
-
-  useEffect(() => {
-    setInterval(() => {
-      setState((prev) => prev + 1);
-    }, 1000);
-  }, []);
-
-  return (
-    <div>
-      <div>{state}</div>
-      <OtherFc />
-      {/* {children} */}
-    </div>
-  );
-};
-
-export const App = () => {
-  console.log("app");
-
-  return (
-    <MainFc>
-      <OtherFc />
-    </MainFc>
-  );
-};
-
 const root = createRoot(container);
 root.render(
   <QueryClientProvider client={queryClient}>
     <ThemeProvider theme="light">
-      {/* <RouterProvider router={router} /> */}
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
+      <RouterProvider router={router} />
     </ThemeProvider>
     {/* <ReactQueryDevtools initialIsOpen={true} /> */}
-  </QueryClientProvider>
+  </QueryClientProvider>,
 );
