@@ -1,3 +1,4 @@
+delete all branches
 finish dash style
 
 enable hot realod mode

@@ -1,12 +1,12 @@
-import React, {
-  ReactNode,
-  forwardRef,
-  RefObject,
-  ForwardRefRenderFunction,
-} from "react";
-import partialCircle from "svg-partial-circle";
+import React, { ForwardRefRenderFunction, forwardRef } from "react";
+import { Sector } from "recharts";
 import type { AreaSettings } from "../types/AreaSettings";
-import { DEGREE_START, TEXT_GAP, ChartTextAlign } from "./constants";
+import {
+  CHART_PADDING,
+  DEGREE_START,
+  TEXT_GAP,
+  ChartTextAlign,
+} from "./constants";
 
 import styles from "./PieChart.css";
 
@@ -20,47 +20,54 @@ type Coordinate = {
   y: number;
 };
 
-interface ChartText extends Coordinate {
-  align: ChartTextAlign;
-}
-
-type Path = {
-  path: string;
-  name: string;
-  color: string;
-  text: ChartText;
-};
-
-const getDegrees = (radius: number): number => {
-  return (Math.PI / 180) * radius;
-};
+const RADIAN = Math.PI / 180;
 
 const getRadius = (value: number, size: number): number => {
   return ((size / 2) * value) / 10;
 };
 
+// Recharts polar convention: angle in degrees, positive angles go
+// counter-clockwise, and `polarToCartesian` negates the angle to draw into the
+// SVG coordinate system (y grows downwards). The chart starts at the top and
+// sectors are laid out clockwise, matching the original `DEGREE_START` (-90).
+const polarToCartesian = (
+  cx: number,
+  cy: number,
+  radius: number,
+  angle: number
+): Coordinate => ({
+  x: cx + Math.cos(-RADIAN * angle) * radius,
+  y: cy + Math.sin(-RADIAN * angle) * radius,
+});
+
 const PieChartComponent: ForwardRefRenderFunction<
   SVGSVGElement,
   PieChartProps
 > = ({ items, viewBoxSize }, ref) => {
-  const chartPath: Path[] = [];
   const canvasSize = viewBoxSize;
-  const chartSize = viewBoxSize;
+  const chartSize = Math.max(viewBoxSize - CHART_PADDING * 2, 0);
 
   const renderPath = () => {
-    const center: Coordinate = { x: canvasSize / 2, y: canvasSize / 2 };
+    const center: Coordinate = {
+      x: CHART_PADDING + chartSize / 2,
+      y: CHART_PADDING + chartSize / 2,
+    };
 
     if (items.length === 1) {
       const { value, name, color } = items[0];
       const radius = getRadius(value, chartSize);
+      const startTop = -DEGREE_START;
 
       return (
         <>
-          <circle
+          <Sector
             key="circle"
             cx={center.x}
             cy={center.y}
-            r={radius}
+            innerRadius={0}
+            outerRadius={radius}
+            startAngle={startTop}
+            endAngle={startTop - 360}
             fill={color}
             className={styles["pie-chart__sector"]}
           />
@@ -78,77 +85,55 @@ const PieChartComponent: ForwardRefRenderFunction<
     }
 
     const itemSize = 360 / items.length;
-    let angleStart = getDegrees(DEGREE_START);
+    // Recharts measures 0° at 3 o'clock, so the top (12 o'clock) is -DEGREE_START.
+    const startTop = -DEGREE_START;
 
-    items.forEach(({ name, value, color }, index) => {
-      const radius = getRadius(value, canvasSize);
+    return items.map(({ name, value, color }, index) => {
+      const radius = getRadius(value, chartSize);
+      const startAngle = startTop - itemSize * index;
+      const endAngle = startTop - itemSize * (index + 1);
+      const midAngle = (startAngle + endAngle) / 2;
 
-      const angleEnd = getDegrees(DEGREE_START + itemSize * (index + 1));
-      const path = partialCircle(
+      const labelPos = polarToCartesian(
         center.x,
         center.y,
-        radius,
-        angleStart,
-        angleEnd
+        radius + TEXT_GAP,
+        midAngle
       );
+      const cos = Math.cos(-RADIAN * midAngle);
 
-      const sectorEndY = Number(path[1][7]);
-      const sectorStartY = Number(path[0][2]);
-      let text: ChartText;
-
-      if (sectorEndY === sectorStartY) {
-        text = {
-          x: center.x,
-          y: center.y + radius + TEXT_GAP * 2,
-          align: ChartTextAlign.Middle,
-        };
-      } else if (sectorEndY > sectorStartY) {
-        text = {
-          x: center.x + radius + TEXT_GAP,
-          y: (sectorEndY - sectorStartY) / 2 + sectorStartY,
-          align: ChartTextAlign.Start,
-        };
+      let align: ChartTextAlign;
+      if (cos > 0.05) {
+        align = ChartTextAlign.Start;
+      } else if (cos < -0.05) {
+        align = ChartTextAlign.End;
       } else {
-        text = {
-          x: center.x - radius - TEXT_GAP,
-          y: (sectorStartY - sectorEndY) / 2 + sectorEndY,
-          align: ChartTextAlign.End,
-        };
+        align = ChartTextAlign.Middle;
       }
 
-      chartPath.push({
-        color,
-        name,
-        path:
-          path.map((p) => p.join(" ")).join(" ") +
-          ` L ${center.x} ${center.y} Z`,
-        text,
-      });
-      angleStart = angleEnd;
+      return (
+        <React.Fragment key={`sector-${index}`}>
+          <Sector
+            cx={center.x}
+            cy={center.y}
+            innerRadius={0}
+            outerRadius={radius}
+            startAngle={startAngle}
+            endAngle={endAngle}
+            fill={color}
+            className={styles["pie-chart__sector"]}
+          />
+          <text
+            x={labelPos.x}
+            y={labelPos.y}
+            textAnchor={align}
+            className={styles["pie-chart__text"]}
+          >
+            {name} <tspan>{value}</tspan>
+          </text>
+        </React.Fragment>
+      );
     });
-
-    return chartPath.reduce(
-      (res, { color, path, name, text }, index) => [
-        ...res,
-        <path
-          key={`area-${index}`}
-          d={path}
-          strokeWidth={2}
-          fill={color}
-          className={styles["pie-chart__sector"]}
-        />,
-        <text
-          key={`text-${index}`}
-          x={text.x}
-          y={text.y}
-          textAnchor={text.align}
-          className={styles["pie-chart__text"]}
-        >
-          <tspan>{items[index].value}</tspan>
-        </text>,
-      ],
-      [] as ReactNode[]
-    );
   };
 
   return (
